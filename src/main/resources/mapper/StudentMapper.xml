@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.lmx.student.dao.StudentDao">
+    <resultMap id="BaseResultMap" type="cn.lmx.student.model.Student">
+        <id column="id" property="id" />
+        <result column="sno" property="sno" />
+        <result column="name" property="name" />
+        <result column="sex" property="sex" />
+        <result column="phone" property="phone" />
+        <result column="address" property="address" />
+        <result column="start_date" property="startDate" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sno,name,sex,phone,address,start_date
+    </sql>
+
+    <insert id="save" parameterType="cn.lmx.student.model.Student" keyProperty="id" useGeneratedKeys="true">
+        insert into student(sno,name,sex,phone,address,start_date) 
+        values(#{sno},#{name},#{sex},#{phone},#{address},#{startDate})
+    </insert>
+    
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from student where id = #{id}
+    </delete>
+    
+    <update id="update" parameterType="cn.lmx.student.model.Student" >
+        <if test="id != null">
+            update student
+            <set>
+                <if test="sno != ''">
+                    sno = #{sno},
+                </if>
+                <if test="name != null">
+                    name = #{name},
+                </if>
+                <if test="sex != null">
+                    sex = #{sex},
+                </if>
+                <if test="phone != null">
+                    phone = #{phone},
+                </if>
+                <if test="address != null">
+                    address = #{address},
+                </if>
+                <if test="startDate != null">
+                    start_date = #{startDate},
+                </if>
+            </set>
+            where id = #{id}
+        </if>
+    </update>
+
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from student where id = #{id}
+    </select> 
+    
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from student
+    </select>
+    
+    
+    <!-- 
+
+    <select id="findAll" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from file
+        where id = #{id}
+    </select>
+    <update id="update" parameterType="cn.attackme.myuploader.model.File" >
+        <if test="id != null">
+            update file
+            <set>
+                <if test="name != null">
+                    name = #{name},
+                </if>
+                <if test="md5 != null">
+                    md5 = #{md5},
+                </if>
+                <if test="path != null">
+                    path = #{path},
+                </if>
+                <if test="uploadTime != null">
+                    upload_time = #{uploadTime},
+                </if>
+                <if test="ext != null">
+                    ext = #{ext},
+                </if>
+            </set>
+            where id = #{id}
+        </if>
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from file where id = #{id}
+    </delete>
+
+    <select id="getByFile" parameterType="cn.attackme.myuploader.model.File" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from file
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+            <if test="md5 != null">
+                and md5 = #{md5}
+            </if>
+            <if test="path != null">
+                and path = #{path}
+            </if>
+            <if test="uploadTime != null">
+                and upload_time = #{uploadTime}
+            </if>
+        </where>
+    </select> -->
+</mapper>
